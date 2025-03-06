@@ -1,21 +1,15 @@
 package main
 
 import (
-	"fmt"
-	"html"
 	"log"
-	"net/http"
+
+	"github.com/bloodgroup-cplusplus/go_docker/cmd/api"
 )
 
-func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
+func main () {
+	server := api.NewAPIServer(":8080",nil)
 
-	})
-
-	http.HandleFunc("/hi", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hi")
-	})
-
-	log.Fatal(http.ListenAndServe(":8081", nil))
+	if err := server.Run(); err !=nil {
+		log.Fatalf(err)
+	}
 }
